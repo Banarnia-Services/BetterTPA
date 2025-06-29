@@ -8,6 +8,7 @@ public enum Message implements ILanguage {
     // TPA
     TIMER_INFO_TPA_WARMUP("%prefix% You will be teleported in §e%time% seconds§7."),
     TIMER_ÌNFO_TPA_TELEPORT("%prefix% Teleporting to §e%target%§7..."),
+    TIMER_ERROR_TPA_WARMUP_MOVE("%prefix% §7Teleport cancelled because you moved during warmup."),
     TIMER_ERROR_TPA_EXPIRED_SENDER("%prefix% §e%target% §7did not react to your TPA-Request in time."),
     TIMER_ERROR_TPA_EXPIRED_RECEIVER("%prefix% §7TPA-Request from §e%target% §7expired."),
 

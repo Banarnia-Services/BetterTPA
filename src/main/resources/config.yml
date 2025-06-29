@@ -1,5 +1,5 @@
 # Config version: Do not touch this.
-version: 1.0
+version: 1.1
 
 # Language file. Will look for a file called <ARG>.yml in the lang folder.
 # If the file does not exist, it will be automatically created for you to edit.
@@ -12,6 +12,9 @@ request-duration: 60
 # Warmup time (in s) to wait after an accepted tpa request, before teleporting the player.
 # Set to 0 to disable warmup.
 teleport-warmup-time: 0
+
+# Cancel teleport warmup if the player moves.
+cancel-warmup-on-move: false
 
 # Cooldown time (in s) to prevent further tpa requests from a player, if the last one was denied.
 # Set to 0 to disable cooldown.

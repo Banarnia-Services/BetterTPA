@@ -14,6 +14,7 @@ import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
+import java.lang.reflect.Array;
 import java.util.*;
 
 public class TPAManager {
@@ -37,6 +38,24 @@ public class TPAManager {
         this.mm = mm;
     }
 
+    // ~~~~~ Player Move ~~~~~
+
+    public void handlePlayerMove(Player player) {
+        // Check if player has a teleport request.
+        List<TPRequest> requests = getPendingAndSentRequests(player);
+        if (requests.isEmpty())
+            return;
+
+        // Check if any warmups are running.
+        requests.forEach(request -> {
+            if (request.hasWarmup() && request.getPlayerToTeleport().equals(player)) {
+                request.deny();
+                removeRequest(request);
+                player.sendMessage(Message.TIMER_ERROR_TPA_WARMUP_MOVE.get());
+            }
+        });
+    }
+
     // ~~~~~ Player Quit ~~~~~
 
     /**
@@ -45,23 +64,11 @@ public class TPAManager {
      * @param player Quitting player.
      */
     public void handlePlayerQuit(Player player) {
-        // Check if player has pending requests.
-        if (hasPendingRequest(player)) {
-            pendingRequests.get(player.getUniqueId()).values().forEach(request -> {
-                request.deny();
-                removeRequest(request);
-            });
-        }
-
-        // Cancel all requests that the player has sent.
-        for (UUID receiverId : pendingRequests.keySet()) {
-            for (Map.Entry<UUID, TPRequest> entry : pendingRequests.get(receiverId).entrySet())
-                if (entry.getKey().equals(player.getUniqueId())) {
-                    TPRequest request = entry.getValue();
-                    request.deny();
-                    removeRequest(request);
-                }
-        }
+        // Deny and remove all requests the player has sent or are still pending.
+        getPendingAndSentRequests(player).forEach(request -> {
+            request.deny();
+            removeRequest(request);
+        });
     }
 
     // ~~~~~ TPA accept ~~~~~
@@ -396,6 +403,35 @@ public class TPAManager {
             return Collections.emptyList();
 
         return new ArrayList<>(pendingRequests.get(receiver.getUniqueId()).values());
+    }
+
+    /**
+     * Get all active sent requests of the sender.
+     * @param sender Sending player.
+     * @return List of all sent requests.
+     */
+    public List<TPRequest> getSentRequests(Player sender) {
+        List<TPRequest> sentRequests = new ArrayList<>();
+        for (UUID receiverId : pendingRequests.keySet()) {
+            for (Map.Entry<UUID, TPRequest> entry : pendingRequests.get(receiverId).entrySet())
+                if (entry.getKey().equals(sender.getUniqueId()))
+                    sentRequests.add(entry.getValue());
+        }
+
+        return sentRequests;
+    }
+
+    /**
+     * Get all pending and sent requests of the player.
+     * @param player Player that received or sent requests.
+     * @return List of all requests.
+     */
+    public List<TPRequest> getPendingAndSentRequests(Player player) {
+        List<TPRequest> requests = new ArrayList<>();
+        requests.addAll(getPendingRequests(player));
+        requests.addAll(getSentRequests(player));
+
+        return requests;
     }
 
     // ~~~~~ Cooldown ~~~~~

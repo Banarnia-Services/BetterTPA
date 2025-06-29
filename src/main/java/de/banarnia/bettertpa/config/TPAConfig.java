@@ -26,6 +26,8 @@ public class TPAConfig {
         return config.getInt("teleport-warmup-time", 0);
     }
 
+    public boolean cancelWarmupOnMove() { return config.getBoolean("cancel-warmup-on-move", false); }
+
     public int getRequestCooldown() {
         return config.getInt("request-cooldown", 10);
     }

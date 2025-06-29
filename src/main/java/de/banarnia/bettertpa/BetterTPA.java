@@ -59,7 +59,7 @@ public class BetterTPA extends JavaPlugin {
 
         // Load config.
         Config config = YamlVersionConfig.of(this, getDataFolder(), "config.yml",
-                "config.yml", "1.0");
+                "config.yml", "1.1");
         this.tpaConfig = new TPAConfig(this, config);
 
         // Add language handler.

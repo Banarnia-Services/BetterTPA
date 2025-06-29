@@ -2,6 +2,7 @@ Message:
   prefix: §8[§6BetterTPA§8]§7
   timer-info-tpa-warmup: '%prefix% Du wirst in §e%time% seconds§7 teleportiert.'
   timer-ìnfo-tpa-teleport: '%prefix% Teleportiere zu §e%target%§7...'
+  timer-error-tpa-warmup-move: '%prefix% §7Teleport abgebrochen, weil du dich bewegt hast.'
   timer-error-tpa-expired-sender: '%prefix% §e%target% §7hat deine Anfrage nicht rechtzeitig angenommen.'
   timer-error-tpa-expired-receiver: '%prefix% §7TPA-Anfrage von §e%target% §7ist abgelaufen.'
   command-info-tpa-sender: '%prefix% Du hast eine TPA-Anfrage an §e%target%§7 gesendet.'
