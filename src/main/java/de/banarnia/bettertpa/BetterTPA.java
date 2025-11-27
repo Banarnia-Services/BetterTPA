@@ -79,7 +79,7 @@ public class BetterTPA extends JavaPlugin {
         // Commands.
         commandManager.registerCommand(new TPAIgnoreCommand(manager.getIgnoreManager()));
         commandManager.registerCommand(new TPAIgnoreAllCommand(manager.getIgnoreManager()));
-        commandManager.registerCommand(new TPACommand(manager));
+        commandManager.registerCommand(new TPACommand(manager, languageHandler));
         commandManager.registerCommand(new TPAHereCommand(manager));
         commandManager.registerCommand(new TPAHereAllCommand(manager));
         TPAListCommand listCommand = new TPAListCommand(manager, adventure, mm);
